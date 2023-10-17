@@ -50,17 +50,24 @@ val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 
 model = tf.keras.Sequential([
-    tf.keras.layers.experimental.preprocessing.RandomRotation(0.1, input_shape=(64, 192, 3)),
-    tf.keras.layers.experimental.preprocessing.RandomZoom(0.1),
+    tf.keras.layers.RandomRotation(0.1, input_shape=(64, 192, 3)),
+    tf.keras.layers.RandomZoom(0.1),
+    tf.keras.layers.RandomContrast(0.1),
+    tf.keras.layers.RandomTranslation(0.1, 0.1),
     tf.keras.layers.Rescaling(1./255, input_shape=(64, 192, 3)),
-    tf.keras.layers.Conv2D(32, 3, activation='relu'),
+
+    tf.keras.layers.Conv2D(20, 7, activation='relu'),
     tf.keras.layers.MaxPooling2D(),
-    tf.keras.layers.Conv2D(32, 3, activation='relu'),
+    tf.keras.layers.Dropout(0.1),
+    tf.keras.layers.Conv2D(15, 7, activation='relu'),
     tf.keras.layers.MaxPooling2D(),
-    tf.keras.layers.Conv2D(32, 3, activation='relu'),
+    tf.keras.layers.Dropout(0.1),
+    tf.keras.layers.Conv2D(10, 7, activation='relu'),
     tf.keras.layers.MaxPooling2D(),
+    tf.keras.layers.Dropout(0.1),
+
     tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(256, activation="relu"),
     tf.keras.layers.Dense(1, activation="sigmoid")
 ])
 
