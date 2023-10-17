@@ -50,6 +50,8 @@ val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 
 model = tf.keras.Sequential([
+    tf.keras.layers.experimental.preprocessing.RandomRotation(0.1, input_shape=(64, 192, 3)),
+    tf.keras.layers.experimental.preprocessing.RandomZoom(0.1),
     tf.keras.layers.Rescaling(1./255, input_shape=(64, 192, 3)),
     tf.keras.layers.Conv2D(32, 3, activation='relu'),
     tf.keras.layers.MaxPooling2D(),
