@@ -67,7 +67,7 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dropout(0.1),
 
     tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(256, activation="relu"),
+    tf.keras.layers.Dense(128, activation="relu"),
     tf.keras.layers.Dense(1, activation="sigmoid")
 ])
 
@@ -106,7 +106,7 @@ history = model.fit(
     class_weight=class_weights_dict
 )
 
-model.save("models/default_model.tf")
+model.save("../models/default_model.tf")
 
 scores = model.evaluate(val_ds)
 print(f"Time taken: {timetaken.total_time}s")

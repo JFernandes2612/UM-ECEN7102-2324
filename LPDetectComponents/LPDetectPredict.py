@@ -1,4 +1,4 @@
-from features import conv_image
+from LPDetectExtractFeatures import conv_image
 import numpy as np
 from skimage import transform
 import tensorflow as tf
@@ -13,7 +13,7 @@ def load_image(img):
     return np_image
 
 def predict(images):
-    model = tf.keras.models.load_model('models/default_model.tf')
+    model = tf.keras.models.load_model('../models/default_model.tf')
 
     print(model.summary())
 
@@ -27,12 +27,12 @@ def predict(images):
 
 
 def main():
-    files = glob.glob('test_results/*')
+    files = glob.glob('../test_results/*')
     for f in files:
         os.remove(f)
-    images = conv_image("test/1.jpg")
+    images = conv_image("../test/2.jpg")
     for i,img in enumerate(images):
-        img.save(f"test_results/{i}.jpg")
+        img.save(f"../test_results/{i}.jpg")
     images = [load_image(image) for image in images]
     predict(images)
 
