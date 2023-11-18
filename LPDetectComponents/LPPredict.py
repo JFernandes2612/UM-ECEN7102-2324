@@ -27,12 +27,12 @@ def predict(images):
 
 
 def main():
-    files = glob.glob('../test_results/*')
+    files = glob.glob('test_results/*')
     for f in files:
         os.remove(f)
-    images = conv_image("../test/2.jpg")
+    images = conv_image("test/2.jpg")
     for i,img in enumerate(images):
-        img.save(f"../test_results/{i}.jpg")
+        img.save(f"test_results/{i}.jpg")
     images = [load_image(image) for image in images]
     predict(images)
 

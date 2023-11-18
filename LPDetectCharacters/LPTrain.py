@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import typing
 from sklearn.utils import class_weight
-import itertools
 
 physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0], True)
@@ -15,7 +14,7 @@ train_ds = tf.keras.utils.image_dataset_from_directory(
     validation_split=0.2,
     subset="training",
     seed=0,
-    image_size=(50, 25),
+    image_size=(64, 48),
     batch_size=32,
     label_mode='categorical')
 print(train_ds)
@@ -23,7 +22,7 @@ print(train_ds)
 cw_ds = tf.keras.utils.image_dataset_from_directory(
     "../images/charactersLabeled/",
     seed=0,
-    image_size=(50, 25),
+    image_size=(64, 48),
     batch_size=32,
     label_mode='categorical')
 print(cw_ds)
@@ -45,7 +44,7 @@ val_ds = tf.keras.utils.image_dataset_from_directory(
     validation_split=0.2,
     subset="validation",
     seed=0,
-    image_size=(50, 25),
+    image_size=(64, 48),
     batch_size=32,
     label_mode='categorical')
 print(val_ds)
@@ -57,20 +56,21 @@ val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 
 model = tf.keras.Sequential([
-    tf.keras.layers.RandomRotation(0.1, input_shape=(50, 25, 3)),
+    tf.keras.layers.RandomRotation(0.1, input_shape=(64, 48, 3)),
     tf.keras.layers.RandomZoom(0.1),
     tf.keras.layers.RandomContrast(0.1),
     tf.keras.layers.RandomTranslation(0.1, 0.1),
-    tf.keras.layers.Rescaling(1./255, input_shape=(50, 25, 3)),
+    tf.keras.layers.Rescaling(1./255, input_shape=(64, 48, 3)),
 
-    tf.keras.layers.Conv2D(15, 5, activation='relu'),
+    tf.keras.layers.Conv2D(20, 5, activation='relu'),
     tf.keras.layers.MaxPooling2D(),
     tf.keras.layers.Dropout(0.1),
-    tf.keras.layers.Conv2D(10, 5, activation='relu'),
+    tf.keras.layers.Conv2D(15, 5, activation='relu'),
     tf.keras.layers.MaxPooling2D(),
     tf.keras.layers.Dropout(0.1),
 
     tf.keras.layers.Flatten(),
+    tf.keras.layers.Dropout(0.1),
     tf.keras.layers.Dense(64, activation="relu"),
     tf.keras.layers.Dense(num_classes, activation="softmax")
 ])
