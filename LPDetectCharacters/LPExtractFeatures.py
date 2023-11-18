@@ -6,6 +6,10 @@ import numpy as np
 
 def conv_char(img_path):
     image = Image.open(img_path)
+    return conv_char_img(image)
+
+def conv_char_img(image):
+    image.thumbnail((270, 70))
     grey_scale_image = ImageOps.autocontrast(image.convert('L').filter(ImageFilter.GaussianBlur(1)))
     new_img = np.array(grey_scale_image) > 210
 
@@ -23,7 +27,11 @@ def conv_char(img_path):
         else:
             images.append(Image.fromarray(np.array(image)[:,x_lines[i-1]:x_lines[i]]))
 
+        if i == len(x_lines)-1:
+            images.append(Image.fromarray(np.array(image)[:,x_lines[i]:]))
+
     return images
+
 
 def main():
     images_files = list(glob.iglob("../images/labeled/LP/*"))
