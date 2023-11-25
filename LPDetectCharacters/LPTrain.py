@@ -109,7 +109,7 @@ history = model.fit(
     class_weight=class_weights_dict
 )
 
-model.save("../models/character.tf")
+model.save("../models/defaultmodel.tf")
 
 scores = model.evaluate(val_ds)
 print(f"Time taken: {timetaken.total_time}s")
