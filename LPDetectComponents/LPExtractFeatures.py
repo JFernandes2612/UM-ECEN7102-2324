@@ -11,6 +11,7 @@ MIN_AREA = 20
 
 def conv_image(img_path):
     image = Image.open(img_path)
+    image.thumbnail((800, 500))
     grey_scale_image = image.convert('L')
     edges_image = ImageOps.autocontrast(
         grey_scale_image.filter(ImageFilter.FIND_EDGES))
